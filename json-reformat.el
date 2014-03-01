@@ -1,6 +1,7 @@
-;;; json-reformat --- Reformat tool for JSON
+;;; json-reformat.el --- Reformat tool for JSON
 
 ;; Author: Wataru MIYAGUNI <gonngo@gmail.com>
+;; URL: https://github.com/gongo/json-reformat
 ;; Keywords: json
 
 ;; Copyright (c) 2012 Wataru MIYAGUNI
@@ -28,6 +29,8 @@
 
 
 ;;; Commentary:
+
+;; json-reformat.el is reformat tool for JSON http://en.wikipedia.org/wiki/JavaScript_Object_Notation.
 
 ;;; Code:
 
@@ -106,3 +109,5 @@
         (insert after)))))
 
 (provide 'json-reformat)
+
+;;; json-reformat.el ends here
