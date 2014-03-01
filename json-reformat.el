@@ -1,4 +1,4 @@
-;;; json-reformat.el --- Reformat tool for JSON
+;;; json-reformat.el --- Reformatting tool for JSON
 
 ;; Author: Wataru MIYAGUNI <gonngo@gmail.com>
 ;; URL: https://github.com/gongo/json-reformat
@@ -30,7 +30,9 @@
 
 ;;; Commentary:
 
-;; json-reformat.el is reformat tool for JSON http://en.wikipedia.org/wiki/JavaScript_Object_Notation.
+;; json-reformat.el is a reformatting tool for JSON http://en.wikipedia.org/wiki/JavaScript_Object_Notation.
+
+;; Use the command `json-reformat-region'.
 
 ;;; Code:
 
@@ -94,6 +96,7 @@
 
 ;;;###autoload
 (defun json-reformat-region (begin end)
+  "Reformat the JSON in the region from BEGIN to END."
   (interactive "r")
   (save-excursion
     (save-restriction
