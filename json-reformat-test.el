@@ -71,3 +71,31 @@
 }" (json-reformat:tree-to-string
     '("info" ("male" t) "age" 33 "name" "John Smith") 0)))
   )
+
+(ert-deftest json-reformat-test:json-reformat-region ()
+  (should (string= "\
+{
+    \"breakfast\": \[
+        \"milk\",
+        \"bread\",
+        \"egg\"
+    \],
+    \"age\": 33,
+    \"name\": \"John Smith\"
+}" (with-temp-buffer
+     (insert "{\"name\": \"John Smith\", \"age\": 33, \"breakfast\":\[\"milk\", \"bread\", \"egg\"\]}")
+     (json-reformat-region (point-min) (point-max))
+     (buffer-string))))
+
+  (should (string= "\
+\[
+    {
+        \"foo\": \"bar\"
+    },
+    {
+        \"foo\": \"baz\"
+    }
+\]" (with-temp-buffer
+     (insert "[{ \"foo\" : \"bar\" }, { \"foo\" : \"baz\" }]")
+     (json-reformat-region (point-min) (point-max))
+     (buffer-string)))))

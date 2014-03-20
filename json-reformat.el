@@ -107,7 +107,7 @@
              (before (buffer-substring (point-min) (point-max)))
              (json-tree (json-read-from-string before))
              after)
-        (setq after (json-reformat:tree-to-string json-tree 0))
+        (setq after (json-reformat:print-node json-tree 0))
         (delete-region (point-min) (point-max))
         (insert after)))))
 
