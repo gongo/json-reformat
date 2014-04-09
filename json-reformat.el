@@ -72,8 +72,18 @@
             "\n" (json-reformat:indent level) "]"
             )))
 
+(defun json-reformat:reverse-plist (val)
+  (let ((root val) rval)
+    (while root
+      (let ((key (car root))
+            (val (cadr root)))
+        (setq root (cddr root))
+        (setq rval (cons val rval))
+        (setq rval (cons key rval))))
+    rval))
+
 (defun json-reformat:print-node (val level)
-  (cond ((consp val) (json-reformat:tree-to-string val level))
+  (cond ((consp val) (json-reformat:tree-to-string (json-reformat:reverse-plist val) level))
         ((numberp val) (json-reformat:number-to-string val))
         ((vectorp val) (json-reformat:vector-to-string val level))
         ((null val) "null")
