@@ -79,13 +79,13 @@
 (ert-deftest json-reformat-test:json-reformat-region ()
   (should (string= "\
 {
+    \"name\": \"John Smith\",
+    \"age\": 33,
     \"breakfast\": \[
         \"milk\",
         \"bread\",
         \"egg\"
-    \],
-    \"age\": 33,
-    \"name\": \"John Smith\"
+    \]
 }" (with-temp-buffer
      (insert "{\"name\": \"John Smith\", \"age\": 33, \"breakfast\":\[\"milk\", \"bread\", \"egg\"\]}")
      (json-reformat-region (point-min) (point-max))
