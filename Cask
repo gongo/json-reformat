@@ -1,6 +1,7 @@
 (package "json-reformat" "0.0.1" "Reformat tool for JSON")
 
 (source melpa)
+(source gnu)
 
 (development
  (depends-on "ert")
