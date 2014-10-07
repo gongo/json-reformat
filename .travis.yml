@@ -1,19 +1,17 @@
 language: emacs-lisp
 env:
   matrix:
-    - EMACS=emacs23
-    - EMACS=emacs24
-    - EMACS=emacs-snapshot
+    - EMACS_VERSION=24.1
+    - EMACS_VERSION=24.2
+    - EMACS_VERSION=24.3
   global:
     - CASK=$HOME/.cask/bin/cask
+    - PATH=$HOME/.cask/bin:$HOME/.evm/bin:$PATH
 before_install:
-  - sudo add-apt-repository -y ppa:cassou/emacs
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq $EMACS
-  - if [ "$EMACS" = 'emacs-snapshot' ]; then
-      sudo apt-get install -qq emacs-snapshot-el emacs-snapshot-gtk;
-    fi
-  - curl -fsSkL --max-time 10 --retry 10 --retry-delay 10
-        https://raw.github.com/cask/cask/master/go | python
+  - sudo mkdir /usr/local/evm
+  - sudo chown travis:travis /usr/local/evm
+  - curl -fsSkL --max-time 10 --retry 10 --retry-delay 10 https://raw.github.com/rejeep/evm/master/go | bash
+  - evm install emacs-$EMACS_VERSION-bin --use
+  - curl -fsSkL --max-time 10 --retry 10 --retry-delay 10 https://raw.github.com/cask/cask/master/go | python
 script:
   make test
