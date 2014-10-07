@@ -13,5 +13,6 @@ before_install:
   - curl -fsSkL --max-time 10 --retry 10 --retry-delay 10 https://raw.github.com/rejeep/evm/master/go | bash
   - evm install emacs-$EMACS_VERSION-bin --use
   - curl -fsSkL --max-time 10 --retry 10 --retry-delay 10 https://raw.github.com/cask/cask/master/go | python
+  - cask install
 script:
-  make test
+  cask exec ert-runner
