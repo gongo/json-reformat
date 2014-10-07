@@ -7,12 +7,12 @@ env:
     - EMACS_VERSION=24.3
   global:
     - CASK=$HOME/.cask/bin/cask
+    - PATH=$HOME/.cask/bin:$HOME/.evm/bin:$PATH
 before_install:
   - sudo mkdir /usr/local/evm
   - sudo chown travis:travis /usr/local/evm
   - curl -fsSkL --max-time 10 --retry 10 --retry-delay 10 https://raw.github.com/rejeep/evm/master/go | bash
-  - curl -fsSkL --max-time 10 --retry 10 --retry-delay 10 https://raw.github.com/cask/cask/master/go | python
-  - export PATH="$HOME/.cask/bin:$HOME/.evm/bin:$PATH"
   - evm install emacs-$EMACS_VERSION-bin --use
+  - curl -fsSkL --max-time 10 --retry 10 --retry-delay 10 https://raw.github.com/cask/cask/master/go | python
 script:
   make test
