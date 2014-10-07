@@ -1,9 +1,3 @@
-(require 'ert)
-(require 'undercover)
-(undercover "json-reformat.el$")
-
-(require 'json-reformat)
-
 (ert-deftest json-reformat-test:indent ()
   (should (string= "" (json-reformat:indent 0)))
   (should (string= "    " (json-reformat:indent 1)))
