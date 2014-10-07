@@ -1,7 +1,6 @@
 language: emacs-lisp
 env:
   matrix:
-    - EMACS_VERSION=23.4
     - EMACS_VERSION=24.1
     - EMACS_VERSION=24.2
     - EMACS_VERSION=24.3
