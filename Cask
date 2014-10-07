@@ -1,8 +1,6 @@
 (package "json-reformat" "0.0.1" "Reformat tool for JSON")
 
-(source melpa)
-(source gnu)
+(source "marmalade" "http://marmalade-repo.org/packages/")
 
 (development
- (depends-on "ert")
- (depends-on "undercover"))
+ (depends-on "ert"))
