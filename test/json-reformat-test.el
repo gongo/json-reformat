@@ -1,7 +1,14 @@
 (ert-deftest json-reformat-test:indent ()
+  ;; default 4
   (should (string= "" (json-reformat:indent 0)))
   (should (string= "    " (json-reformat:indent 1)))
   (should (string= "        " (json-reformat:indent 2)))
+
+  ;; specify `json-reformat:indent-width'
+  (let ((json-reformat:indent-width 3))
+    (should (string= "" (json-reformat:indent 0)))
+    (should (string= "   " (json-reformat:indent 1)))
+    (should (string= "      " (json-reformat:indent 2))))
   )
 
 (ert-deftest json-reformat-test:number-to-string ()
