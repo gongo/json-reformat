@@ -24,9 +24,7 @@ M-x json-reformat-region
 
 ### Sample 1
 
-![](https://github.com/gongo/json-reformat/raw/master/images/json-reformat-1-before.png)
-
-![](https://github.com/gongo/json-reformat/raw/master/images/json-reformat-1-after.png)
+![](https://github.com/gongo/json-reformat/raw/master/images/json-reformat_demo.gif)
 
 ### Sample 2
 
