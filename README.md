@@ -42,6 +42,38 @@ json-reformat:indent-width (integer)
     Change indentation level (default 4)
 ```
 
+## IMPORTANT
+
+From emacs 24.4, `json-pretty-print` and `json-pretty-print-buffer` was bundled.
+
+Example:
+
+```json
+{"name":"foobar","nick":"foo \u00e4 bar","description":"<pre>\nbaz\n</pre>"}
+```
+
+Result of `json-pretty-print`:
+
+```json
+{
+  "description": "<pre>\nbaz\n<\/pre>",
+  "nick": "foo \u00e4 bar",
+  "name": "foobar"
+}
+```
+
+Result of `json-reformat-region`:
+
+```json
+{
+  "description": "<pre>
+baz
+</pre>",
+  "nick": "foo ä bar",
+  "name": "foobar"
+}
+```
+
 ## LICENSE
 
 MIT License. see `json-reformat.el`
