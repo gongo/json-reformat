@@ -3,6 +3,8 @@ JSON Reformat
 
 [![Build Status](https://travis-ci.org/gongo/json-reformat.png)](https://travis-ci.org/gongo/json-reformat)
 [![Coverage Status](https://img.shields.io/coveralls/gongo/json-reformat.svg)](https://coveralls.io/r/gongo/json-reformat?branch=master)
+[![melpa badge][melpa-badge]][melpa-link]
+[![melpa stable badge][melpa-stable-badge]][melpa-stable-link]
 
 `json-reformat.el` is reformat tool for [JSON](http://en.wikipedia.org/wiki/JavaScript_Object_Notation).
 
@@ -43,3 +45,8 @@ json-reformat:indent-width (integer)
 ## LICENSE
 
 MIT License. see `json-reformat.el`
+
+[melpa-link]: http://melpa.org/#/json-reformat
+[melpa-stable-link]: http://stable.melpa.org/#/json-reformat
+[melpa-badge]: http://melpa.org/packages/json-reformat-badge.svg
+[melpa-stable-badge]: http://stable.melpa.org/packages/json-reformat-badge.svg
