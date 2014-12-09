@@ -57,7 +57,7 @@
         (t (symbol-name val))))
 
 (defun json-reformat:decode-string (val)
-  (format "\"%s\"" val))
+  (json-encode-string val))
 
 (defun json-reformat:vector-to-string (val level)
   (if (= (length val) 0) "[]"
