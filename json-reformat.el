@@ -45,6 +45,33 @@
   :type 'integer
   :group 'json-reformat)
 
+(defcustom json-reformat:pretty-string? nil
+  "Whether to decode the string.
+
+Example:
+
+{\"name\":\"foobar\",\"nick\":\"foo \\u00e4 bar\",\"description\":\"<pre>\\nbaz\\n</pre>\"}
+
+If nil:
+
+    {
+        \"name\": \"foobar\",
+        \"nick\": \"foo \\u00e4 bar\",
+        \"description\": \"<pre>\\nbaz\\n<\\/pre>\"
+    }
+
+Else t:
+
+    {
+        \"name\": \"foobar\",
+        \"nick\": \"foo ä bar\",
+        \"description\": \"<pre>
+    baz
+    </pre>\"
+    }"
+  :type 'boolean
+  :group 'json-reformat)
+
 (defun json-reformat:indent (level)
   (make-string (* level json-reformat:indent-width) ? ))
 
@@ -56,8 +83,10 @@
         ((equal json-false val) "false")
         (t (symbol-name val))))
 
-(defun json-reformat:decode-string (val)
-  (format "\"%s\"" val))
+(defun json-reformat:string-to-string (val)
+  (if json-reformat:pretty-string?
+      (format "\"%s\"" val)
+    (json-encode-string val)))
 
 (defun json-reformat:vector-to-string (val level)
   (if (= (length val) 0) "[]"
@@ -84,12 +113,12 @@
     rval))
 
 (defun json-reformat:print-node (val level)
-  (cond ((consp val) (json-reformat:tree-to-string (json-reformat:reverse-plist val) level))
+  (cond ((consp val)   (json-reformat:tree-to-string (json-reformat:reverse-plist val) level))
         ((numberp val) (json-reformat:number-to-string val))
         ((vectorp val) (json-reformat:vector-to-string val level))
-        ((null val) "null")
+        ((null val)    "null")
         ((symbolp val) (json-reformat:symbol-to-string val))
-        (t (json-reformat:decode-string val))))
+        (t             (json-reformat:string-to-string val))))
 
 (defun json-reformat:tree-to-string (root level)
   (concat "{\n"

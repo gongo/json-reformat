@@ -55,10 +55,19 @@
 \]" (json-reformat:vector-to-string [1 [2 [3 4] 5] 6 []] 0)))
   )
 
-(ert-deftest json-reformat-test:decode-string ()
-  (should (string= "\"foobar\"" (json-reformat:decode-string "foobar")))
-  (should (string= "\"♡\"" (json-reformat:decode-string "\u2661")))
+(ert-deftest json-reformat-test:string-to-string ()
+  (should (string= "\"foobar\"" (json-reformat:string-to-string "foobar")))
+  (should (string= "\"foo\\nbar\"" (json-reformat:string-to-string "foo\nbar")))
+  (should (string= "\"\\u2661\"" (json-reformat:string-to-string "\u2661")))
   )
+
+(ert-deftest json-reformat-test:string-to-string-when-pretty ()
+  (let ((json-reformat:pretty-string? t))
+    (should (string= "\"foobar\"" (json-reformat:string-to-string "foobar")))
+    (should (string= "\"foo
+bar\"" (json-reformat:string-to-string "foo\nbar")))
+    (should (string= "\"♡\"" (json-reformat:string-to-string "\u2661")))
+    ))
 
 (ert-deftest json-reformat-test:print-node ()
   (should (string= "null" (json-reformat:print-node nil 0)))
