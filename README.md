@@ -40,39 +40,37 @@ M-x json-reformat-region
 json-reformat:indent-width (integer)
 
     Change indentation level (default 4)
+
+json-reformat:pretty-string? (boolean)
+
+    Specify whether to decode the string (default nil)
+
+    Example:
+
+    ;; {"name":"foo\"bar","nick":"foo \u00e4 bar","description":"<pre>\nbaz\n</pre>"}
+
+    If nil:
+
+    {
+        "name": "foo\"bar",
+        "nick": "foo \u00e4 bar",
+        "description": "<pre>\nbaz\n<\/pre>"
+    }
+
+    Else t:
+
+    {
+        "name": "foo\"bar",
+        "nick": "foo ä bar",
+        "description": "<pre>
+    baz
+    </pre>"
+    }
 ```
 
-## IMPORTANT
+## SEE ALSO
 
-From emacs 24.4, `json-pretty-print` and `json-pretty-print-buffer` was bundled.
-
-Example:
-
-```json
-{"name":"foobar","nick":"foo \u00e4 bar","description":"<pre>\nbaz\n</pre>"}
-```
-
-Result of `json-pretty-print`:
-
-```json
-{
-  "description": "<pre>\nbaz\n<\/pre>",
-  "nick": "foo \u00e4 bar",
-  "name": "foobar"
-}
-```
-
-Result of `json-reformat-region`:
-
-```json
-{
-  "description": "<pre>
-baz
-</pre>",
-  "nick": "foo ä bar",
-  "name": "foobar"
-}
-```
+From emacs 24.4, `json-pretty-print` and `json-pretty-print-buffer` (similar specifications as `json-reformat-region`) was bundled.
 
 ## LICENSE
 
