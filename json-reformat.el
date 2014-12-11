@@ -85,7 +85,7 @@ Else t:
 
 (defun json-reformat:string-to-string (val)
   (if json-reformat:pretty-string?
-      (format "\"%s\"" val)
+      (format "\"%s\"" (replace-regexp-in-string "\"" "\\\\\"" val))
     (json-encode-string val)))
 
 (defun json-reformat:vector-to-string (val level)

@@ -57,15 +57,15 @@
 
 (ert-deftest json-reformat-test:string-to-string ()
   (should (string= "\"foobar\"" (json-reformat:string-to-string "foobar")))
-  (should (string= "\"foo\\nbar\"" (json-reformat:string-to-string "foo\nbar")))
+  (should (string= "\"fo\\\"o\\nbar\"" (json-reformat:string-to-string "fo\"o\nbar")))
   (should (string= "\"\\u2661\"" (json-reformat:string-to-string "\u2661")))
   )
 
 (ert-deftest json-reformat-test:string-to-string-when-pretty ()
   (let ((json-reformat:pretty-string? t))
     (should (string= "\"foobar\"" (json-reformat:string-to-string "foobar")))
-    (should (string= "\"foo
-bar\"" (json-reformat:string-to-string "foo\nbar")))
+    (should (string= "\"fo\\\"o
+bar\"" (json-reformat:string-to-string "fo\"o\nbar")))
     (should (string= "\"♡\"" (json-reformat:string-to-string "\u2661")))
     ))
 
