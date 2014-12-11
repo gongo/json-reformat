@@ -1,4 +1,4 @@
-(package "json-reformat" "0.0.1" "Reformat tool for JSON")
+(package "json-reformat" "0.0.2" "Reformat tool for JSON")
 
 (source melpa)
 (source gnu)
