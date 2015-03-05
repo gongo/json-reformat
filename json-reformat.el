@@ -31,13 +31,18 @@
 
 ;;; Commentary:
 
-;; json-reformat.el is a reformatting tool for JSON
-;; http://en.wikipedia.org/wiki/JavaScript_Object_Notation.
-
-;; Use the command `json-reformat-region'. You can customize its
-;; behaviour with `json-reformat:indent-width' and
-;; `json-reformat:pretty-string?' (e.g. avoid escaping slashes and
-;; control characters).
+;; json-reformat.el is a reformatting tool for JSON (http://json.org/).
+;;
+;; ## Usage
+;;
+;;   1. Specify region
+;;   2. Call 'M-x json-reformat-region'
+;;
+;; ## Customize
+;;
+;;   - `json-reformat:indent-width'
+;;   - `json-reformat:pretty-string?'
+;;
 
 ;;; Code:
 
@@ -145,11 +150,11 @@ Else t:
 
 ;;;###autoload
 (defun json-reformat-region (begin end)
-  "Reformat the JSON in the region from BEGIN to END.
+  "Reformat the JSON in the specified region.
 
-You can customize its behaviour with `json-reformat:indent-width'
-and `json-reformat:pretty-string?' (e.g. avoid escaping slashes
-and control characters)."
+If you want to customize the reformat style,
+please see the documentation of `json-reformat:indent-width'
+and `json-reformat:pretty-string?'."
   (interactive "r")
   (save-excursion
     (save-restriction
