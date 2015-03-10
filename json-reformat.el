@@ -49,6 +49,10 @@
 (require 'json)
 (eval-when-compile (require 'cl))
 
+(defconst json-reformat:special-chars-as-pretty-string
+  '((?\" . ?\")
+    (?\\ . ?\\)))
+
 (defcustom json-reformat:indent-width 4
   "How much indentation `json-reformat-region' should do at each level."
   :type 'integer
@@ -92,9 +96,16 @@ Else t:
         ((equal json-false val) "false")
         (t (symbol-name val))))
 
+(defun json-reformat:encode-char-as-pretty (char)
+  (setq char (json-encode-char0 char 'ucs))
+  (let ((special-char (car (rassoc char json-reformat:special-chars-as-pretty-string))))
+    (if special-char
+        (format "\\%c" special-char)
+      (format "%c" char))))
+
 (defun json-reformat:string-to-string (val)
   (if json-reformat:pretty-string?
-      (format "\"%s\"" (replace-regexp-in-string "\"" "\\\\\"" val))
+      (format "\"%s\"" (mapconcat 'json-reformat:encode-char-as-pretty val ""))
     (json-encode-string val)))
 
 (defun json-reformat:vector-to-string (val level)

@@ -59,6 +59,8 @@
   (should (string= "\"foobar\"" (json-reformat:string-to-string "foobar")))
   (should (string= "\"fo\\\"o\\nbar\"" (json-reformat:string-to-string "fo\"o\nbar")))
   (should (string= "\"\\u2661\"" (json-reformat:string-to-string "\u2661")))
+
+  (should (string= "\"^(amq\\\\.gen.*|amq\\\\.default)$\"" (json-reformat:string-to-string "^(amq\\.gen.*|amq\\.default)$")))
   )
 
 (ert-deftest json-reformat-test:string-to-string-when-pretty ()
@@ -67,6 +69,8 @@
     (should (string= "\"fo\\\"o
 bar\"" (json-reformat:string-to-string "fo\"o\nbar")))
     (should (string= "\"♡\"" (json-reformat:string-to-string "\u2661")))
+
+    (should (string= "\"^(amq\\\\.gen.*|amq\\\\.default)$\"" (json-reformat:string-to-string "^(amq\\.gen.*|amq\\.default)$")))
     ))
 
 (ert-deftest json-reformat-test:print-node ()
