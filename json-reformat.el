@@ -167,18 +167,26 @@ If you want to customize the reformat style,
 please see the documentation of `json-reformat:indent-width'
 and `json-reformat:pretty-string?'."
   (interactive "r")
-  (save-excursion
-    (save-restriction
-      (narrow-to-region begin end)
-      (goto-char (point-min))
-      (let* ((json-key-type 'string)
-             (json-object-type 'plist)
-             (before (buffer-substring (point-min) (point-max)))
-             (json-tree (json-read-from-string before))
-             after)
-        (setq after (json-reformat:print-node json-tree 0))
-        (delete-region (point-min) (point-max))
-        (insert after)))))
+  (let ((start-line (line-number-at-pos begin))
+        (json-key-type 'string)
+        (json-object-type 'plist))
+    (save-excursion
+      (save-restriction
+        (narrow-to-region begin end)
+        (goto-char (point-min))
+        (let (json-tree reformatted)
+          (condition-case errvar
+              (progn
+                (setq json-tree (json-read))
+                (setq reformatted (json-reformat:print-node json-tree 0))
+                (delete-region (point-min) (point-max))
+                (insert reformatted))
+            (error
+             (message
+              "JSON parse error [Reason] %s [Position] In buffer, line %d (char %d)"
+              (error-message-string errvar)
+              (+ start-line (line-number-at-pos (point)) -1)
+              (point)))))))))
 
 (provide 'json-reformat)
 
