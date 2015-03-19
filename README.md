@@ -47,14 +47,15 @@ json-reformat:pretty-string? (boolean)
 
     Example:
 
-    ;; {"name":"foo\"bar","nick":"foo \u00e4 bar","description":"<pre>\nbaz\n</pre>"}
+    ;; {"name":"foo\"bar","nick":"foo \u00e4 bar","description":"<pre>\nbaz\n</pre>","home":"/home/foobar"}
 
     If nil:
 
     {
         "name": "foo\"bar",
         "nick": "foo \u00e4 bar",
-        "description": "<pre>\nbaz\n<\/pre>"
+        "description": "<pre>\nbaz\n<\/pre>",
+        "home": "\/home\/foobar"
     }
 
     Else t:
@@ -64,7 +65,8 @@ json-reformat:pretty-string? (boolean)
         "nick": "foo ä bar",
         "description": "<pre>
     baz
-    </pre>"
+    </pre>",
+        "home": "/home/foobar"
     }
 ```
 
