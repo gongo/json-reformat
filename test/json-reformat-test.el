@@ -116,3 +116,26 @@ bar\"" (json-reformat:string-to-string "fo\"o\nbar")))
      (insert "[{ \"foo\" : \"bar\" }, { \"foo\" : \"baz\" }]")
      (json-reformat-region (point-min) (point-max))
      (buffer-string)))))
+
+(ert-deftest json-reformat-test:json-reformat-region-occur-error ()
+  (let (message-string)
+    (cl-letf (((symbol-function 'message) (lambda (&rest args) (setq message-string (apply 'format args)))))
+      ;; missing camma after "milk"
+      (with-temp-buffer
+        (insert "{\"name\": \"John Smith\", \"age\": 33, \"breakfast\":\[\"milk\" \"bread\", \"egg\"\]}")
+        (json-reformat-region (point-min) (point-max)))
+      (should (string=
+               "JSON parse error [Reason] Unknown JSON error: bleah [Position] In buffer, line 1 (char 55)"
+               message-string))
+
+      ;; The `foo' key don't start with '"'
+      (with-temp-buffer
+        (insert "\
+
+
+[{ foo : \"bar\" }, { \"foo\" : \"baz\" }]") ;; At 3 (line)
+        (json-reformat-region (point-min) (point-max)))
+      (should (string=
+               "JSON parse error [Reason] Bad string format: \"doesn't start with '\\\"'!\" [Position] In buffer, line 3 (char 6)"
+               message-string))
+      )))
