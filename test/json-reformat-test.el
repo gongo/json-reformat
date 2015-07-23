@@ -78,7 +78,9 @@ bar\"" (json-reformat:string-to-string "fo\"o\nbar")))
   )
 
 (ert-deftest json-reformat-test:tree-to-string ()
-  (should (string= "\
+  (let ((info (make-hash-table :test 'equal)))
+    (puthash "male" t info)
+    (should (string= "\
 {
     \"info\": {
         \"male\": true
@@ -86,8 +88,8 @@ bar\"" (json-reformat:string-to-string "fo\"o\nbar")))
     \"age\": 33,
     \"name\": \"John Smith\"
 }" (json-reformat:tree-to-string
-    '("info" ("male" t) "age" 33 "name" "John Smith") 0)))
-  )
+    `("info" ,info "age" 33 "name" "John Smith") 0)))
+    ))
 
 (ert-deftest json-reformat-test:json-reformat-region ()
   (should (string= "\
