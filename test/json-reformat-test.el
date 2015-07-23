@@ -117,6 +117,16 @@ bar\"" (json-reformat:string-to-string "fo\"o\nbar")))
 \]" (with-temp-buffer
      (insert "[{ \"foo\" : \"bar\" }, { \"foo\" : \"baz\" }]")
      (json-reformat-region (point-min) (point-max))
+     (buffer-string))))
+
+  (should (string= "\
+{
+    \"foo\": {
+    },
+    \"bar\": null
+}" (with-temp-buffer
+     (insert "{\"foo\" : {}, \"bar\" : null}")
+     (json-reformat-region (point-min) (point-max))
      (buffer-string)))))
 
 (ert-deftest json-reformat-test:json-reformat-region-occur-error ()
