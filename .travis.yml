@@ -1,4 +1,9 @@
 language: emacs-lisp
+
+branches:
+  only:
+    - master
+
 env:
   matrix:
     - EMACS=emacs24        EMACS_PPA=ppa:cassou/emacs
