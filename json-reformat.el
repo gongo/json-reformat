@@ -105,7 +105,7 @@ Else t:
         (t (symbol-name val))))
 
 (defun json-reformat:encode-char-as-pretty (char)
-  (setq char (json-encode-char0 char 'ucs))
+  (setq char (encode-char char 'ucs))
   (let ((special-char (car (rassoc char json-reformat:special-chars-as-pretty-string))))
     (if special-char
         (format "\\%c" special-char)
