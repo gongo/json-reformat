@@ -1,5 +1,8 @@
 language: emacs-lisp
 
+sudo: false
+cache: bundler
+
 env:
   global:
     - PATH=$HOME/.cask/bin:$PATH
