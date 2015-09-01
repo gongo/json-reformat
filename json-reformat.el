@@ -49,6 +49,14 @@
 (require 'json)
 (eval-when-compile (require 'cl))
 
+(unless (featurep 'subr-x)
+  ;; built-in subr-x from 24.4
+  (defsubst hash-table-keys (hash-table)
+    "Return a list of keys in HASH-TABLE."
+    (let ((keys '()))
+      (maphash (lambda (k _v) (push k keys)) hash-table)
+      keys)))
+
 (defconst json-reformat:special-chars-as-pretty-string
   '((?\" . ?\")
     (?\\ . ?\\)))
@@ -97,7 +105,7 @@ Else t:
         (t (symbol-name val))))
 
 (defun json-reformat:encode-char-as-pretty (char)
-  (setq char (json-encode-char0 char 'ucs))
+  (setq char (encode-char char 'ucs))
   (let ((special-char (car (rassoc char json-reformat:special-chars-as-pretty-string))))
     (if special-char
         (format "\\%c" special-char)
@@ -122,23 +130,18 @@ Else t:
             "\n" (json-reformat:indent level) "]"
             )))
 
-(defun json-reformat:reverse-plist (val)
-  (let ((root val) rval)
-    (while root
-      (let ((key (car root))
-            (val (cadr root)))
-        (setq root (cddr root))
-        (setq rval (cons val rval))
-        (setq rval (cons key rval))))
-    rval))
-
 (defun json-reformat:print-node (val level)
-  (cond ((consp val)   (json-reformat:tree-to-string (json-reformat:reverse-plist val) level))
-        ((numberp val) (json-reformat:number-to-string val))
-        ((vectorp val) (json-reformat:vector-to-string val level))
-        ((null val)    "null")
-        ((symbolp val) (json-reformat:symbol-to-string val))
-        (t             (json-reformat:string-to-string val))))
+  (cond ((hash-table-p val) (json-reformat:tree-to-string (json-reformat:tree-sibling-to-plist val) level))
+        ((numberp val)      (json-reformat:number-to-string val))
+        ((vectorp val)      (json-reformat:vector-to-string val level))
+        ((null val)         "null")
+        ((symbolp val)      (json-reformat:symbol-to-string val))
+        (t                  (json-reformat:string-to-string val))))
+
+(defun json-reformat:tree-sibling-to-plist (root)
+  (let (pl)
+    (dolist (key (reverse (hash-table-keys root)) pl)
+      (setq pl (plist-put pl key (gethash key root))))))
 
 (defun json-reformat:tree-to-string (root level)
   (concat "{\n"
@@ -169,7 +172,7 @@ and `json-reformat:pretty-string?'."
   (interactive "r")
   (let ((start-line (line-number-at-pos begin))
         (json-key-type 'string)
-        (json-object-type 'plist))
+        (json-object-type 'hash-table))
     (save-excursion
       (save-restriction
         (narrow-to-region begin end)
