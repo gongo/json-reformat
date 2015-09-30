@@ -49,7 +49,7 @@
 (require 'json)
 (eval-when-compile (require 'cl))
 
-(unless (featurep 'subr-x)
+(unless (require 'subr-x nil t)
   ;; built-in subr-x from 24.4
   (defsubst hash-table-keys (hash-table)
     "Return a list of keys in HASH-TABLE."
