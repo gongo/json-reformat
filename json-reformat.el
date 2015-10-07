@@ -169,7 +169,7 @@ Else t:
 If you want to customize the reformat style,
 please see the documentation of `json-reformat:indent-width'
 and `json-reformat:pretty-string?'."
-  (interactive "r")
+  (interactive "*r")
   (let ((start-line (line-number-at-pos begin))
         (json-key-type 'string)
         (json-object-type 'hash-table))
