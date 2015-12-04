@@ -57,7 +57,8 @@
       (maphash (lambda (k _v) (push k keys)) hash-table)
       keys)))
 
-(define-error 'json-reformat-error "JSON Reformat error")
+(put 'json-reformat-error 'error-message "JSON Reformat error")
+(put 'json-reformat-error 'error-conditions '(json-reformat-error error))
 
 (defconst json-reformat:special-chars-as-pretty-string
   '((?\" . ?\")
