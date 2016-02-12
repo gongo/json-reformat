@@ -67,6 +67,7 @@
 (defcustom json-reformat:indent-width 4
   "How much indentation `json-reformat-region' should do at each level."
   :type 'integer
+  :safe #'integerp
   :group 'json-reformat)
 
 (defcustom json-reformat:pretty-string? nil
@@ -94,6 +95,7 @@ Else t:
     </pre>\"
     }"
   :type 'boolean
+  :safe #'booleanp
   :group 'json-reformat)
 
 (defun json-reformat:indent (level)
