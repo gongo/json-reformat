@@ -8,6 +8,10 @@ JSON Reformat
 
 `json-reformat.el` is reformat tool for [JSON](http://en.wikipedia.org/wiki/JavaScript_Object_Notation).
 
+## Important
+
+From **emacs 24.4** , `json-pretty-print` and `json-pretty-print-buffer` (similar specifications as `json-reformat-region`) was bundled.
+
 ## Requirements
 
 - Emacs 23 or higher
@@ -69,10 +73,6 @@ json-reformat:pretty-string? (boolean)
         "home": "/home/foobar"
     }
 ```
-
-## SEE ALSO
-
-From emacs 24.4, `json-pretty-print` and `json-pretty-print-buffer` (similar specifications as `json-reformat-region`) was bundled.
 
 ## LICENSE
 
