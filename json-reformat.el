@@ -184,6 +184,18 @@ Else t:
                      (point)))))))
 
 ;;;###autoload
+(defun json-reformat-region-or-buffer ()
+  "Reformat the JSON in the specified region or the whole buffer if no region is active.
+
+If you want to customize the reformat style,
+please see the documentation of `json-reformat:indent-width'
+and `json-reformat:pretty-string?'."
+  (interactive)
+  (if (region-active-p)
+      (json-reformat-region (region-beginning) (region-end))
+    (json-reformat-region (point-min) (point-max))))
+
+;;;###autoload
 (defun json-reformat-region (begin end)
   "Reformat the JSON in the specified region.
 
