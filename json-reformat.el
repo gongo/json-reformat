@@ -145,7 +145,7 @@ Else t:
 
 (defun json-reformat:tree-sibling-to-plist (root)
   (let (pl)
-    (dolist (key (reverse (hash-table-keys root)) pl)
+    (dolist (key (hash-table-keys root) pl)
       (setq pl (plist-put pl key (gethash key root))))))
 
 (defun json-reformat:tree-to-string (root level)
