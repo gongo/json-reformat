@@ -40,8 +40,8 @@
 ;;
 ;; ## Customize
 ;;
-;;   - `json-reformat:indent-width'
-;;   - `json-reformat:pretty-string?'
+;;   - `json-reformat--indent-width'
+;;   - `json-reformat--pretty-string?'
 ;;
 
 ;;; Code:
@@ -60,17 +60,17 @@
 (put 'json-reformat-error 'error-message "JSON Reformat error")
 (put 'json-reformat-error 'error-conditions '(json-reformat-error error))
 
-(defconst json-reformat:special-chars-as-pretty-string
+(defconst json-reformat--special-chars-as-pretty-string
   '((?\" . ?\")
     (?\\ . ?\\)))
 
-(defcustom json-reformat:indent-width 4
+(defcustom json-reformat--indent-width 4
   "How much indentation `json-reformat-region' should do at each level."
   :type 'integer
   :safe #'integerp
   :group 'json-reformat)
 
-(defcustom json-reformat:pretty-string? nil
+(defcustom json-reformat--pretty-string? nil
   "Whether to decode the string.
 
 Example:
@@ -98,57 +98,57 @@ Else t:
   :safe #'booleanp
   :group 'json-reformat)
 
-(defun json-reformat:indent (level)
-  (make-string (* level json-reformat:indent-width) ? ))
+(defun json-reformat--indent (level)
+  (make-string (* level json-reformat--indent-width) ? ))
 
-(defun json-reformat:number-to-string (val)
+(defun json-reformat--number-to-string (val)
   (number-to-string val))
 
-(defun json-reformat:symbol-to-string (val)
+(defun json-reformat--symbol-to-string (val)
   (cond ((equal 't val) "true")
         ((equal json-false val) "false")
         (t (symbol-name val))))
 
-(defun json-reformat:encode-char-as-pretty (char)
+(defun json-reformat--encode-char-as-pretty (char)
   (setq char (encode-char char 'ucs))
-  (let ((special-char (car (rassoc char json-reformat:special-chars-as-pretty-string))))
+  (let ((special-char (car (rassoc char json-reformat--special-chars-as-pretty-string))))
     (if special-char
         (format "\\%c" special-char)
       (format "%c" char))))
 
-(defun json-reformat:string-to-string (val)
-  (if json-reformat:pretty-string?
-      (format "\"%s\"" (mapconcat 'json-reformat:encode-char-as-pretty val ""))
+(defun json-reformat--string-to-string (val)
+  (if json-reformat--pretty-string?
+      (format "\"%s\"" (mapconcat 'json-reformat--encode-char-as-pretty val ""))
     (json-encode-string val)))
 
-(defun json-reformat:vector-to-string (val level)
+(defun json-reformat--vector-to-string (val level)
   (if (= (length val) 0) "[]"
     (concat "[\n"
             (mapconcat
              'identity
              (loop for v across val
                    collect (concat
-                            (json-reformat:indent (1+ level))
-                            (json-reformat:print-node v (1+ level))
+                            (json-reformat--indent (1+ level))
+                            (json-reformat--print-node v (1+ level))
                             ))
              (concat ",\n"))
-            "\n" (json-reformat:indent level) "]"
+            "\n" (json-reformat--indent level) "]"
             )))
 
-(defun json-reformat:print-node (val level)
-  (cond ((hash-table-p val) (json-reformat:tree-to-string (json-reformat:tree-sibling-to-plist val) level))
-        ((numberp val)      (json-reformat:number-to-string val))
-        ((vectorp val)      (json-reformat:vector-to-string val level))
+(defun json-reformat--print-node (val level)
+  (cond ((hash-table-p val) (json-reformat--tree-to-string (json-reformat--tree-sibling-to-plist val) level))
+        ((numberp val)      (json-reformat--number-to-string val))
+        ((vectorp val)      (json-reformat--vector-to-string val level))
         ((null val)         "null")
-        ((symbolp val)      (json-reformat:symbol-to-string val))
-        (t                  (json-reformat:string-to-string val))))
+        ((symbolp val)      (json-reformat--symbol-to-string val))
+        (t                  (json-reformat--string-to-string val))))
 
-(defun json-reformat:tree-sibling-to-plist (root)
+(defun json-reformat--tree-sibling-to-plist (root)
   (let (pl)
     (dolist (key (reverse (hash-table-keys root)) pl)
       (setq pl (plist-put pl key (gethash key root))))))
 
-(defun json-reformat:tree-to-string (root level)
+(defun json-reformat--tree-to-string (root level)
   (concat "{\n"
           (let (key val str)
             (while root
@@ -156,15 +156,15 @@ Else t:
                     val (cadr root)
                     root (cddr root))
               (setq str
-                    (concat str (json-reformat:indent (1+ level))
+                    (concat str (json-reformat--indent (1+ level))
                             "\"" key "\""
                             ": "
-                            (json-reformat:print-node val (1+ level))
+                            (json-reformat--print-node val (1+ level))
                             (when root ",")
                             "\n"
                             )))
             str)
-          (json-reformat:indent level)
+          (json-reformat--indent level)
           "}"))
 
 (defun json-reformat-from-string (string)
@@ -176,7 +176,7 @@ Else t:
               (json-object-type 'hash-table)
               json-tree)
           (setq json-tree (json-read))
-          (json-reformat:print-node json-tree 0))
+          (json-reformat--print-node json-tree 0))
       (json-error
        (signal 'json-reformat-error
                (list (error-message-string errvar)
@@ -188,8 +188,8 @@ Else t:
   "Reformat the JSON in the specified region.
 
 If you want to customize the reformat style,
-please see the documentation of `json-reformat:indent-width'
-and `json-reformat:pretty-string?'."
+please see the documentation of `json-reformat--indent-width'
+and `json-reformat--pretty-string?'."
   (interactive "*r")
   (let ((start-line (line-number-at-pos begin))
         (start-pos  begin))

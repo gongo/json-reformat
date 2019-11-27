@@ -1,27 +1,27 @@
 (ert-deftest json-reformat-test:indent ()
   ;; default 4
-  (should (string= "" (json-reformat:indent 0)))
-  (should (string= "    " (json-reformat:indent 1)))
-  (should (string= "        " (json-reformat:indent 2)))
+  (should (string= "" (json-reformat--indent 0)))
+  (should (string= "    " (json-reformat--indent 1)))
+  (should (string= "        " (json-reformat--indent 2)))
 
-  ;; specify `json-reformat:indent-width'
-  (let ((json-reformat:indent-width 3))
-    (should (string= "" (json-reformat:indent 0)))
-    (should (string= "   " (json-reformat:indent 1)))
-    (should (string= "      " (json-reformat:indent 2))))
+  ;; specify `json-reformat--indent-width'
+  (let ((json-reformat--indent-width 3))
+    (should (string= "" (json-reformat--indent 0)))
+    (should (string= "   " (json-reformat--indent 1)))
+    (should (string= "      " (json-reformat--indent 2))))
   )
 
 (ert-deftest json-reformat-test:number-to-string ()
-  (should (string= "1" (json-reformat:number-to-string 1)))
-  (should (string= "100" (json-reformat:number-to-string 100)))
-  (should (string= "-1" (json-reformat:number-to-string -1)))
+  (should (string= "1" (json-reformat--number-to-string 1)))
+  (should (string= "100" (json-reformat--number-to-string 100)))
+  (should (string= "-1" (json-reformat--number-to-string -1)))
   )
 
 (ert-deftest json-reformat-test:symbol-to-string ()
-  (should (string= "true" (json-reformat:symbol-to-string t)))
-  (should (string= "false" (json-reformat:symbol-to-string :json-false)))
-  (should (string= "foo" (json-reformat:symbol-to-string 'foo)))
-  (should (string= ":bar" (json-reformat:symbol-to-string :bar)))
+  (should (string= "true" (json-reformat--symbol-to-string t)))
+  (should (string= "false" (json-reformat--symbol-to-string :json-false)))
+  (should (string= "foo" (json-reformat--symbol-to-string 'foo)))
+  (should (string= ":bar" (json-reformat--symbol-to-string :bar)))
   )
 
 (ert-deftest json-reformat-test:vector-to-string ()
@@ -30,14 +30,14 @@
     1,
     2,
     3
-\]" (json-reformat:vector-to-string [1 2 3] 0)))
+\]" (json-reformat--vector-to-string [1 2 3] 0)))
 
   (should (string= "\
 \[
         \"foo\",
         \"bar\",
         3
-    \]" (json-reformat:vector-to-string ["foo" "bar" 3] 1)))
+    \]" (json-reformat--vector-to-string ["foo" "bar" 3] 1)))
 
   (should (string= "\
 \[
@@ -52,29 +52,29 @@
     \],
     6,
     []
-\]" (json-reformat:vector-to-string [1 [2 [3 4] 5] 6 []] 0)))
+\]" (json-reformat--vector-to-string [1 [2 [3 4] 5] 6 []] 0)))
   )
 
 (ert-deftest json-reformat-test:string-to-string ()
-  (should (string= "\"foobar\"" (json-reformat:string-to-string "foobar")))
-  (should (string= "\"fo\\\"o\\nbar\"" (json-reformat:string-to-string "fo\"o\nbar")))
-  (should (string= "\"\\u2661\"" (json-reformat:string-to-string "\u2661")))
+  (should (string= "\"foobar\"" (json-reformat--string-to-string "foobar")))
+  (should (string= "\"fo\\\"o\\nbar\"" (json-reformat--string-to-string "fo\"o\nbar")))
+  (should (string= "\"\\u2661\"" (json-reformat--string-to-string "\u2661")))
 
-  (should (string= "\"^(amq\\\\.gen.*|amq\\\\.default)$\"" (json-reformat:string-to-string "^(amq\\.gen.*|amq\\.default)$")))
+  (should (string= "\"^(amq\\\\.gen.*|amq\\\\.default)$\"" (json-reformat--string-to-string "^(amq\\.gen.*|amq\\.default)$")))
   )
 
 (ert-deftest json-reformat-test:string-to-string-when-pretty ()
-  (let ((json-reformat:pretty-string? t))
-    (should (string= "\"foobar\"" (json-reformat:string-to-string "foobar")))
+  (let ((json-reformat--pretty-string? t))
+    (should (string= "\"foobar\"" (json-reformat--string-to-string "foobar")))
     (should (string= "\"fo\\\"o
-bar\"" (json-reformat:string-to-string "fo\"o\nbar")))
-    (should (string= "\"♡\"" (json-reformat:string-to-string "\u2661")))
+bar\"" (json-reformat--string-to-string "fo\"o\nbar")))
+    (should (string= "\"♡\"" (json-reformat--string-to-string "\u2661")))
 
-    (should (string= "\"^(amq\\\\.gen.*|amq\\\\.default)$\"" (json-reformat:string-to-string "^(amq\\.gen.*|amq\\.default)$")))
+    (should (string= "\"^(amq\\\\.gen.*|amq\\\\.default)$\"" (json-reformat--string-to-string "^(amq\\.gen.*|amq\\.default)$")))
     ))
 
 (ert-deftest json-reformat-test:print-node ()
-  (should (string= "null" (json-reformat:print-node nil 0)))
+  (should (string= "null" (json-reformat--print-node nil 0)))
   )
 
 (ert-deftest json-reformat-test:tree-to-string ()
@@ -87,7 +87,7 @@ bar\"" (json-reformat:string-to-string "fo\"o\nbar")))
     },
     \"age\": 33,
     \"name\": \"John Smith\"
-}" (json-reformat:tree-to-string
+}" (json-reformat--tree-to-string
     `("info" ,info "age" 33 "name" "John Smith") 0)))
     ))
 

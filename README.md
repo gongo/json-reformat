@@ -41,11 +41,11 @@ M-x json-reformat-region
 ## Configuration
 
 ```lisp
-json-reformat:indent-width (integer)
+json-reformat--indent-width (integer)
 
     Change indentation level (default 4)
 
-json-reformat:pretty-string? (boolean)
+json-reformat--pretty-string? (boolean)
 
     Specify whether to decode the string (default nil)
 
