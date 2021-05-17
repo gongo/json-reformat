@@ -2,6 +2,7 @@ JSON Reformat
 =============
 
 [![Build Status](https://travis-ci.org/gongo/json-reformat.png)](https://travis-ci.org/gongo/json-reformat)
+![Test](https://github.com/gongo/json-reformat/workflows/Test/badge.svg)
 [![Coverage Status](https://img.shields.io/coveralls/gongo/json-reformat.svg)](https://coveralls.io/r/gongo/json-reformat?branch=master)
 [![melpa badge][melpa-badge]][melpa-link]
 [![melpa stable badge][melpa-stable-badge]][melpa-stable-link]
