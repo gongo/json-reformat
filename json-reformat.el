@@ -3,7 +3,7 @@
 ;; Author: Wataru MIYAGUNI <gonngo@gmail.com>
 ;; URL: https://github.com/gongo/json-reformat
 ;; Package-Requires: ((emacs "24.3"))
-;; Version: 0.0.6
+;; Version: 0.0.7
 ;; Keywords: json
 
 ;; Copyright (c) 2012 Wataru MIYAGUNI
